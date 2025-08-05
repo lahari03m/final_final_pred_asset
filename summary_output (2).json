@@ -1,0 +1,182 @@
+{
+    "asset_level_summaries": [
+        {
+            "asset_id": "COMP-002",
+            "asset_type": "Air Compressor",
+            "problem": "Valve Failure, Pressure Loss, Oil Contamination, Piston Wear",
+            "solution": "Regular maintenance cycle completed. Compressor showing increased wear but manageable with frequent service."
+        },
+        {
+            "asset_id": "CONV-005",
+            "asset_type": "Belt Conveyor",
+            "problem": "Belt Failure, Bearing Failure, Motor Overload, Roller Seizure, Alignment Issues",
+            "solution": "Addressed alignment issues. Replaced worn components. System restored to normal operation."
+        },
+        {
+            "asset_id": "FAN-003",
+            "asset_type": "Exhaust Fan",
+            "problem": "Belt Wear, Motor Issues, Blade Damage, Vibration",
+            "solution": "New fan motor initial service. Replacement unit performing excellently. All parameters within specification."
+        },
+        {
+            "asset_id": "HEAT-001",
+            "asset_type": "Heat Exchanger",
+            "problem": "Gasket Failure, Tube Leak, Fouling, Corrosion, Thermal Stress",
+            "solution": "Emergency repair completed. Heat exchanger corrosion accelerating rapidly. Multiple tube failures. Environmental controls failing. Replacement procurement urgent."
+        },
+        {
+            "asset_id": "MOTOR-012",
+            "asset_type": "Electric Motor",
+            "problem": "Bearing Wear, Shaft Misalignment, Winding Failure, Insulation Breakdown, Overheating",
+            "solution": "Complete motor replacement required. Catastrophic winding failure. Insulation system collapsed. Motor beyond economical repair. Emergency replacement motor installed."
+        },
+        {
+            "asset_id": "MOTOR-025",
+            "asset_type": "Servo Motor",
+            "problem": "Overheating, Position Error, Drive Issues, Encoder Failure",
+            "solution": "New motor preventive service. Perfect operational record maintained. Industry-leading performance metrics."
+        },
+        {
+            "asset_id": "PUMP-001",
+            "asset_type": "Centrifugal Pump",
+            "problem": "Bearing Failure, Impeller Wear, Cavitation, Seal Leak, Vibration, Bearing Wear",
+            "solution": "Addressed bearing failure. Pump showing end-of-life characteristics. Bearing failures every 2 weeks. Seal integrity compromised. Critical replacement decision needed."
+        },
+        {
+            "asset_id": "PUMP-007",
+            "asset_type": "Gear Pump",
+            "problem": "Gear Wear, Contamination, Seal Failure, Pressure Drop",
+            "solution": "New equipment quarterly service. Performance continues to exceed expectations. Reliability outstanding."
+        },
+        {
+            "asset_id": "TURB-004",
+            "asset_type": "Turbine",
+            "problem": "Bearing Failure, Vibration, Oil System Issues, Blade Wear, Control Problems",
+            "solution": "Addressed vibration. Turbine vibration levels critical. Internal damage suspected. Continuous monitoring implemented. Replacement evaluation in progress."
+        },
+        {
+            "asset_id": "VALVE-008",
+            "asset_type": "Control Valve",
+            "problem": "Seal Leak, Corrosion, Sticking, Actuator Failure, Calibration Drift",
+            "solution": "Addressed calibration drift. Valve showing rapid deterioration. Environmental conditions extremely aggressive. Immediate replacement planning initiated."
+        }
+    ],
+    "overall_dashboard_summary": {
+        "critical_assets": [
+            {
+                "asset_id": "COMP-002",
+                "asset_type": "Air Compressor",
+                "location": "Utility Room - East",
+                "avg_temperature": null,
+                "avg_vibration": 3.72,
+                "avg_oil_condition": 3.0,
+                "avg_downtime_hours": 1.85,
+                "issues_logged": 20
+            },
+            {
+                "asset_id": "CONV-005",
+                "asset_type": "Belt Conveyor",
+                "location": "Warehouse - Zone C",
+                "avg_temperature": null,
+                "avg_vibration": 3.67,
+                "avg_oil_condition": 3.65,
+                "avg_downtime_hours": 1.78,
+                "issues_logged": 20
+            },
+            {
+                "asset_id": "FAN-003",
+                "asset_type": "Exhaust Fan",
+                "location": "Building A - Roof",
+                "avg_temperature": null,
+                "avg_vibration": 4.44,
+                "avg_oil_condition": 2.85,
+                "avg_downtime_hours": 2.49,
+                "issues_logged": 20
+            },
+            {
+                "asset_id": "HEAT-001",
+                "asset_type": "Heat Exchanger",
+                "location": "Building B - Basement",
+                "avg_temperature": 72.98,
+                "avg_vibration": 3.66,
+                "avg_oil_condition": 3.2,
+                "avg_downtime_hours": 2.36,
+                "issues_logged": 20
+            },
+            {
+                "asset_id": "MOTOR-012",
+                "asset_type": "Electric Motor",
+                "location": "Building B - Floor 2",
+                "avg_temperature": 72.85,
+                "avg_vibration": 4.31,
+                "avg_oil_condition": 3.25,
+                "avg_downtime_hours": 2.61,
+                "issues_logged": 20
+            },
+            {
+                "asset_id": "MOTOR-025",
+                "asset_type": "Servo Motor",
+                "location": "Production Line 2",
+                "avg_temperature": 74.08,
+                "avg_vibration": 4.42,
+                "avg_oil_condition": 3.3,
+                "avg_downtime_hours": 3.17,
+                "issues_logged": 20
+            },
+            {
+                "asset_id": "PUMP-001",
+                "asset_type": "Centrifugal Pump",
+                "location": "Building A - Floor 1",
+                "avg_temperature": 76.05,
+                "avg_vibration": 4.42,
+                "avg_oil_condition": 3.0,
+                "avg_downtime_hours": 2.47,
+                "issues_logged": 20
+            },
+            {
+                "asset_id": "PUMP-007",
+                "asset_type": "Gear Pump",
+                "location": "Building C - Floor 3",
+                "avg_temperature": 77.76,
+                "avg_vibration": 5.2,
+                "avg_oil_condition": 3.0,
+                "avg_downtime_hours": 4.24,
+                "issues_logged": 20
+            },
+            {
+                "asset_id": "TURB-004",
+                "asset_type": "Turbine",
+                "location": "Power Generation Unit",
+                "avg_temperature": null,
+                "avg_vibration": 4.47,
+                "avg_oil_condition": 3.0,
+                "avg_downtime_hours": 2.48,
+                "issues_logged": 20
+            },
+            {
+                "asset_id": "VALVE-008",
+                "asset_type": "Control Valve",
+                "location": "Process Room A",
+                "avg_temperature": null,
+                "avg_vibration": 3.81,
+                "avg_oil_condition": 3.3,
+                "avg_downtime_hours": 2.13,
+                "issues_logged": 20
+            }
+        ],
+        "location": "Building A - Floor 1",
+        "total_issues": 200,
+        "most_problematic_asset_id": "PUMP-001",
+        "most_common_failures_last_month": {
+            "Bearing Failure": 1,
+            "Winding Failure": 1,
+            "Alignment Issues": 1
+        },
+        "any_suggestions": [
+            "Inspect assets with frequent failures and high vibration levels.",
+            "Schedule preventive maintenance for aging equipment.",
+            "Review maintenance logs for assets with repeated root causes."
+        ]
+    },
+    "final_text_summary": "From 10 assets across 10 locations, a total of 200 issues were reported. The most problematic asset is PUMP-001, and the most common failures in the last month include: Bearing Failure, Winding Failure, Alignment Issues. There are 10 assets identified as critical based on performance and sensor indicators. Recommended actions include preventive maintenance for critical assets, root cause reviews, and failure pattern analysis."
+}
