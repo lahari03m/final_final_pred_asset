@@ -38,24 +38,15 @@ if uploaded_file:
     top_asset_id = summary.get("most_problematic_asset_id", "N/A")
     top_asset_type = critical_assets[critical_assets["asset_id"] == top_asset_id]["asset_type"].values[0]
 
-    # ---------------------------
-    # 3. Sidebar Filters
-    # ---------------------------
-    st.sidebar.header("🔍 Filter Options")
-    asset_types = critical_assets["asset_type"].unique()
-    selected_types = st.sidebar.multiselect("Filter by Asset Type", asset_types, default=asset_types)
-
-    filtered_assets = critical_assets[critical_assets["asset_type"].isin(selected_types)]
-
     # Add calculated timeline if missing
-    if "avg_predicted_failure_timeline_months" not in filtered_assets.columns:
-        filtered_assets["avg_predicted_failure_timeline_months"] = (
-            filtered_assets.get("avg_downtime_hours", 0) * 0.1 +
-            filtered_assets.get("avg_temperature", 0) * 0.05
+    if "avg_predicted_failure_timeline_months" not in critical_assets.columns:
+        critical_assets["avg_predicted_failure_timeline_months"] = (
+            critical_assets.get("avg_downtime_hours", 0) * 0.1 +
+            critical_assets.get("avg_temperature", 0) * 0.05
         )
 
     # ---------------------------
-    # 4. Executive Summary
+    # 3. Executive Summary FIRST
     # ---------------------------
     st.markdown("## 📈 Executive Summary")
 
@@ -72,6 +63,15 @@ if uploaded_file:
         st.write(data["final_text_summary"])
 
     st.markdown("---")
+
+    # ---------------------------
+    # 4. Sidebar Filters (after summary)
+    # ---------------------------
+    st.sidebar.header("🔍 Filter Options")
+    asset_types = critical_assets["asset_type"].unique()
+    selected_types = st.sidebar.multiselect("Filter by Asset Type", asset_types, default=asset_types)
+
+    filtered_assets = critical_assets[critical_assets["asset_type"].isin(selected_types)]
 
     # ---------------------------
     # 5. Failure Type Breakdown
