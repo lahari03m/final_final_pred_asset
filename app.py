@@ -6,76 +6,73 @@ import plotly.express as px
 st.set_page_config(page_title="Asset Failure Dashboard", layout="wide")
 st.title("🔧 Asset Failure Prediction Dashboard")
 
-# Upload file
+# 📂 Upload JSON
 uploaded_file = st.file_uploader("📁 Upload Summary JSON", type=["json"])
 
 if uploaded_file:
     data = json.load(uploaded_file)
 
-    # Extract necessary data
+    # DataFrames
     summary = data["overall_dashboard_summary"]
     asset_df = pd.DataFrame(data["asset_level_summaries"])
-    failure_df = pd.DataFrame(list(summary["most_common_failures_last_month"].items()), columns=["Failure Type", "Count"])
+    failure_df = pd.DataFrame(list(summary["most_common_failures_last_month"].items()),
+                              columns=["Failure Type", "Count"])
     critical_assets = pd.DataFrame(summary["critical_assets"])
+    
+    # Identify top asset
     top_asset_id = summary.get("most_problematic_asset_id", "N/A")
-    top_asset_type = critical_assets[critical_assets["asset_id"] == top_asset_id]["asset_type"].values[0]
+    top_asset_type = critical_assets.loc[critical_assets["asset_id"] == top_asset_id, "asset_type"].values[0]
 
-    # 📜 Final Executive Text Summary – TOP SECTION
-    st.markdown("### 📜 Final Executive Text Summary")
+    # ===== 0️⃣ Final Executive Summary (Top Section) =====
+    st.markdown("## 📜 Final Executive Text Summary")
     st.write(data["final_text_summary"])
-
     st.markdown("---")
 
-    # 📈 Executive Summary
-    st.markdown("### 📈 Executive Summary")
-    col1, col2, col3 = st.columns(3)
-    col1.metric("Total Issues Logged", summary["total_issues"])
-    col2.metric("Most Problematic Asset", f"{top_asset_id} ({top_asset_type})")
-    col3.metric("Common Failures (last month)", ", ".join(failure_df["Failure Type"].head(2)))
-
-    with st.expander("📌 Suggestions"):
-        for suggestion in summary["any_suggestions"]:
-            st.markdown(f"- {suggestion}")
-
-    st.markdown("---")
-
-    # 🔍 Sidebar Filters
-    st.sidebar.header("🔍 Filter Options")
+    # ===== 🔍 Sidebar Filters =====
+    st.sidebar.header("Filter Options")
     asset_types = critical_assets["asset_type"].unique()
     selected_types = st.sidebar.multiselect("Filter by Asset Type", asset_types, default=asset_types)
     filtered_assets = critical_assets[critical_assets["asset_type"].isin(selected_types)]
 
-    # Add calculated field if missing
-    if "avg_predicted_failure_timeline_months" not in filtered_assets.columns:
-        filtered_assets["avg_predicted_failure_timeline_months"] = (
-            filtered_assets.get("avg_downtime_hours", 0) * 0.1 +
-            filtered_assets.get("avg_temperature", 0) * 0.05
-        )
+    # ===== 1️⃣ Summarization of Asset Failures =====
+    st.markdown("### 1️⃣ Asset Failure Overview")
+    fig_failures = px.bar(failure_df, x="Failure Type", y="Count", color="Failure Type",
+                          title="Most Common Failures Last Month")
+    st.plotly_chart(fig_failures, use_container_width=True)
 
-    # 🔎 Failure Breakdown
-    st.markdown("### 🔎 Failure Type Breakdown")
-    fig = px.bar(failure_df, x="Failure Type", y="Count", color="Failure Type", title="Most Common Failures Last Month")
-    st.plotly_chart(fig, use_container_width=True)
-
-    # 🧱 Critical Assets
-    st.markdown("### 🧱 Critical Assets Overview")
-    st.dataframe(filtered_assets[["asset_id", "asset_type", "issues_logged", "avg_predicted_failure_timeline_months"]],
+    # ===== 2️⃣ Identification of Most Problematic Asset =====
+    st.markdown("### 2️⃣ Most Problematic Asset")
+    st.metric("Most Problematic Asset", f"{top_asset_id} ({top_asset_type})")
+    st.dataframe(filtered_assets[filtered_assets["asset_id"] == top_asset_id],
                  use_container_width=True, hide_index=True)
 
-    # ⏱️ Predicted Timeline Chart
-    st.markdown("### ⏱️ Predicted Failure Timeline (Months)")
-    fig2 = px.bar(
-        filtered_assets,
-        x="asset_id",
-        y="avg_predicted_failure_timeline_months",
-        color="asset_type",
-        title="Avg Predicted Failure Timeline per Asset"
-    )
-    st.plotly_chart(fig2, use_container_width=True)
+    # ===== 3️⃣ Frequent Asset Usage & Forecast =====
+    st.markdown("### 3️⃣ Frequent Asset Usage & Forecast")
+    usage_df = pd.DataFrame(summary["asset_usage_trends"])
+    fig_usage = px.line(usage_df, x="month", y="usage_count", color="asset_id",
+                        title="Asset Usage Over Time")
+    st.plotly_chart(fig_usage, use_container_width=True)
 
-    # 🔬 Asset-level summary
+    # ===== 4️⃣ Most Common Failures in Past Month =====
+    st.markdown("### 4️⃣ Common Failures in the Past Month")
+    st.table(failure_df)
+
+    # ===== 5️⃣ Average Predicted Failure Timeline per Asset Group =====
+    st.markdown("### 5️⃣ Predicted Failure Timeline by Asset Group")
+    fig_timeline = px.bar(filtered_assets, x="asset_id", y="avg_predicted_failure_timeline_months",
+                          color="asset_type", title="Avg Predicted Failure Timeline (Months)")
+    st.plotly_chart(fig_timeline, use_container_width=True)
+
+    # ===== 6️⃣ Assets with Highest Usage Frequency vs Peers =====
+    st.markdown("### 6️⃣ Highest Usage Frequency Compared to Peers")
+    usage_freq_df = pd.DataFrame(summary["highest_usage_vs_peers"])
+    fig_usage_freq = px.bar(usage_freq_df, x="asset_id", y="usage_frequency",
+                            color="asset_type", title="Highest Usage vs Peers")
+    st.plotly_chart(fig_usage_freq, use_container_width=True)
+
+    # ===== ℹ️ Asset-Level Drilldown =====
     st.markdown("---")
     st.markdown("### 🔬 Asset-Level Summaries")
-    selected_asset = st.selectbox("Select an Asset to View Details", asset_df["asset_id"].unique())
+    selected_asset = st.selectbox("Select an Asset", asset_df["asset_id"].unique())
     details = asset_df[asset_df["asset_id"] == selected_asset].iloc[0]
     st.info(f"**Problem:** {details['problem']}\n\n**Recommended Solution:** {details['solution']}")
